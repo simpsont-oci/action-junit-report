@@ -74,8 +74,8 @@ async function parseFile(file) {
                 ).trim();
 
                 const { filename, line } = resolveFileAndLine(
-                    testcase._attributes.file,
-                    testcase._attributes.classname ? testcase._attributes.classname : testcase._attributes.name,
+                    testcase._attributes.file ? testcase._attributes.file : (testcase._attributes.name.includes("/") ? testcase._attributes.name : testcase._attributes.file),
+                    testcase._attributes.classname ? testcase._attributes.classname : (testcase._attributes.name.includes("/") ? testcase._attributes.classname : testcase._attributes.name),
                     stackTrace
                 );
 
