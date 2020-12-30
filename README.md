@@ -18,12 +18,12 @@
 
 -------
 
-# GitHub Action: Process junit reports
+## GitHub Action: Process junit reports
 
 This action processes junit XML reports on pull requests and shows the result as a PR check with summary and annotations.
 If you are looking for surefire reporting check out the amazing plugin by [ScaCap - action-surefire-report](https://github.com/ScaCap/action-surefire-report)
 
-## Inputs
+### Inputs
 
 | **Input**      | **Description**                                                                                                                                                    |
 |----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -32,7 +32,7 @@ If you are looking for surefire reporting check out the amazing plugin by [ScaCa
 | `check_name`   | Optional. Check name to use when creating a check run. The default is `Test Report`.                                                                               |
 | `commit`       | Optional. The commit SHA to update the status. This is useful when you run it with `workflow_run`.                                                                 |
 
-## Example usage
+### Example usage
 
 ```yml
 name: build
@@ -55,15 +55,31 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## Note
+### Note
 
 Forked from: https://github.com/ScaCap/action-surefire-report
 
-# Sample
+## Sample
 
 ![Screenshot](./screenshot.png)
 
-# License
+## Contribute
+
+```bash
+# Install the dependencies  
+$ npm install
+
+# Build and package it for distribution
+$ ncc build index.js --license licenses.txt
+
+# Run the tests, use to debug, and test it out
+$ npm run test
+
+# Verify lint is happy
+$ npm run eslint
+```
+
+## License
 
     Copyright 2020 ScaCap
     Modifications Copyright (C) 2020 Mike Penz
