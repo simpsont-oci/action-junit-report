@@ -41,10 +41,15 @@ const action = async () => {
 
     core.debug(JSON.stringify(createCheckRequest, null, 2));
 
-    const octokit = new Octokit({
-        auth: githubToken,
-    });
-    await octokit.checks.create(createCheckRequest);
+    try {
+        const octokit = new Octokit({
+            auth: githubToken,
+        });
+        await octokit.checks.create(createCheckRequest);
+    } catch (error) {
+        core.error(`Failed to create checks using the provided token. (${error})`);
+        core.warning(`This usually indicates insufficient permissions. More details: https://github.com/mikepenz/action-junit-report/issues/32`);
+    }
 };
 
 module.exports = action;
