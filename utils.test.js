@@ -238,4 +238,35 @@ describe('parseFile', () => {
             },
         ]);
     });
+
+    it('should parse failure autobuild junit results', async () => {
+        const { count, skipped, annotations } = await parseFile('autobuild_junit/Tests_JUnit.xml');
+
+        expect(count).toBe(483);
+        expect(skipped).toBe(0);
+        expect(annotations).toStrictEqual([
+            {
+                "annotation_level": "failure",
+                "end_column": 0,
+                "end_line": 1,
+                "message": "Missing Data (3) Details: ERROR :: Topic Name: topic_02, Reliable: true, Durable: false [PH: 32 (1-7)] 2 [PH: 36 (1-8)] 6-7",
+                "path": "performance-tests/bench_2/run_test.pl fan_frag",
+                "raw_details": "Missing Data (3) Details: ERROR :: Topic Name: topic_02, Reliable: true, Durable: false [PH: 32 (1-7)] 2 [PH: 36 (1-8)] 6-7",
+                "start_column": 0,
+                "start_line": 1,
+                "title": "performance-tests/bench_2/run_test.pl fan_frag"
+            },
+            {
+                "annotation_level": "failure",
+                "end_column": 0,
+                "end_line": 1,
+                "message": "ERROR: test publisher returned 1 \nERROR: test subscriber returned 1",
+                "path": "java/tests/participant_location/run_test.pl -noice",
+                "raw_details": "ERROR: test publisher returned 1 \nERROR: test subscriber returned 1 \ntest FAILED.\nError: java/tests/participant_location/run_test.pl -noice returned with status 256",
+                "start_column": 0,
+                "start_line": 1,
+                "title": "java/tests/participant_location/run_test.pl -noice"
+            },
+        ]);
+    });
 });

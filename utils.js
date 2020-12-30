@@ -80,7 +80,7 @@ async function parseFile(file) {
                 );
 
                 const path = await resolvePath(filename);
-                const title = `${filename}.${testcase._attributes.name}`;
+                const title = filename.includes(" ") ? `${filename}` : `${filename}.${testcase._attributes.name}`;
                 core.info(`${path}:${line} | ${message.replace(/\n/g, ' ')}`);
 
                 annotations.push({
