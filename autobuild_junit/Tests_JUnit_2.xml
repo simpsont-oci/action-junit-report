@@ -210,7 +210,96 @@ Error: tests/DCPS/Reliability/run_test.pl rtps keep-last-one returned with statu
 stop tests/DCPS/Reliability/run_test.pl rtps keep-last-one at Thu Dec 31 20:59:22 2020
 
 ]]></system-out></testcase>
-    <testcase name="tests/DCPS/ReliableBestEffortReaders/run_test.pl" status="0" time="29"/>
+    <testcase name="tests/DCPS/ReliableBestEffortReaders/run_test.pl" status="0" time="29"><failure>
+      <![CDATA[ERROR: Got 1 samples, expected 50
+ERROR: <sub/subscriber> failed: No such file or directory
+2020-12-31 20:59:22: ERROR: sub returned 255 (started at 2020-12-31 20:59:18)
+test FAILED.
+Error: tests/DCPS/Reliability/run_test.pl rtps keep-last-one returned with status 256
+]]></failure><system-out>
+      <![CDATA[start tests/DCPS/Reliability/run_test.pl rtps keep-last-one at Thu Dec 31 20:59:15 2020
+/home/runner/work/OpenDDS/OpenDDS/OpenDDS/bin/DCPSInfoRepo  -o repo.ior -DCPSPendingTimeout 3 
+InfoRepo PID: 63002
+/home/runner/work/OpenDDS/OpenDDS/OpenDDS/tests/DCPS/Reliability/sub/subscriber  -num_sleeps 5 -sleep_secs 2 -DCPSPendingTimeout 4 -keep-last-one -DCPSConfigFile rtps.ini 
+sub PID: 63009
+/home/runner/work/OpenDDS/OpenDDS/OpenDDS/tests/DCPS/Reliability/pub/publisher  -DCPSPendingTimeout 4 50 -keep-last-one -DCPSConfigFile rtps.ini 
+pub PID: 63010
+(63009|63009) NOTICE: using DCPSPendingTimeout value from command option (overrides value if it's in config file)
+(63010|63010) NOTICE: using DCPSPendingTimeout value from command option (overrides value if it's in config file)
+Using TakeNextReaderListenerImpl
+Datawriter QOS keep last one
+Datareader QOS keep last one
+Waiting for connection
+Trying to send: 0
+Trying to send: 1
+Trying to send: 2
+Trying to send: 3
+Trying to send: 4
+Trying to send: 5
+Trying to send: 6
+Trying to send: 7
+Trying to send: 8
+Trying to send: 9
+Trying to send: 10
+Trying to send: 11
+Trying to send: 12
+Trying to send: 13
+Trying to send: 14
+Trying to send: 15
+Trying to send: 16
+Trying to send: 17
+Trying to send: 18
+Trying to send: 19
+Trying to send: 20
+Trying to send: 21
+Trying to send: 22
+Trying to send: 23
+Trying to send: 24
+Trying to send: 25
+Trying to send: 26
+Trying to send: 27
+Trying to send: 28
+Trying to send: 29
+Trying to send: 30
+Trying to send: 31
+Trying to send: 32
+Trying to send: 33
+Trying to send: 34
+Trying to send: 35
+Trying to send: 36
+Trying to send: 37
+Trying to send: 38
+Trying to send: 39
+Trying to send: 40
+Trying to send: 41
+Trying to send: 42
+Trying to send: 43
+Trying to send: 44
+Trying to send: 45
+Trying to send: 46
+Trying to send: 47
+Trying to send: 48
+Trying to send: 49
+Waiting for acks from sub
+Expected: 0 Received: 49
+delete_contained_entities
+delete_participant
+shutdown
+shutdown complete
+ERROR: Got 1 samples, expected 50
+delete_contained_entities
+delete_participant
+shutdown
+shutdown complete
+ERROR: <sub/subscriber> failed: No such file or directory
+2020-12-31 20:59:22: ERROR: sub returned 255 (started at 2020-12-31 20:59:18)
+INFO: /home/runner/work/OpenDDS/OpenDDS/OpenDDS/bin/DCPSInfoRepo being killed.
+InfoRepo_Shutdown: shutting down on signal 15
+test FAILED.
+Error: tests/DCPS/Reliability/run_test.pl rtps keep-last-one returned with status 256
+stop tests/DCPS/Reliability/run_test.pl rtps keep-last-one at Thu Dec 31 20:59:22 2020
+
+]]></system-out></testcase>
     <testcase name="tests/DCPS/WriteDataContainer/run_test.pl" status="0" time="3"/>
     <testcase name="tests/transport/simple/run_test.pl bp" status="0" time="16"/>
     <testcase name="tests/transport/simple/run_test.pl n" status="0" time="2"/>

@@ -2179,7 +2179,7 @@ async function parseFile(file) {
                 );
 
                 const path = await resolvePath(filename);
-                const title = (testcase._attributes.file || testcase._attributes.classname || !testcase._attributes.name.includes(' ')) ? `${filename}.${testcase._attributes.name}` : `${testcase._attributes.name}`;
+                const title = (testcase._attributes.file || testcase._attributes.classname || !testcase._attributes.name.includes('.pl')) ? `${filename}.${testcase._attributes.name}` : `${testcase._attributes.name}`;
                 core.info(`${path}:${line} | ${message.replace(/\n/g, ' ')}`);
 
                 annotations.push({

@@ -270,7 +270,7 @@ describe('parseFile', () => {
                 "start_column": 0,
                 "start_line": 1,
                 "title": "java/tests/participant_location/run_test.pl -noice"
-            },
+            }
         ]);
     });
 
@@ -295,13 +295,24 @@ describe('parseFile', () => {
                 "annotation_level": "failure",
                 "end_column": 0,
                 "end_line": 1,
+                "message": "ERROR: Got 1 samples, expected 50\nERROR: <sub/subscriber> failed: No such file or directory",
+                "path": "tests/DCPS/ReliableBestEffortReaders/run_test.pl",
+                "raw_details": "ERROR: Got 1 samples, expected 50\nERROR: <sub/subscriber> failed: No such file or directory\n2020-12-31 20:59:22: ERROR: sub returned 255 (started at 2020-12-31 20:59:18)\ntest FAILED.\nError: tests/DCPS/Reliability/run_test.pl rtps keep-last-one returned with status 256",
+                "start_column": 0,
+                "start_line": 1,
+                "title": "tests/DCPS/ReliableBestEffortReaders/run_test.pl",
+            },
+            {
+                "annotation_level": "failure",
+                "end_column": 0,
+                "end_line": 1,
                 "message": "ERROR: Expected to receive 10 samples from process=69193 writer=1 but instead received 4\nERROR: Missing process 69193 writer 1 sample 0 expected data length 10240",
                 "path": "tests/DCPS/LargeSample/run_test.pl",
                 "raw_details": "ERROR: Expected to receive 10 samples from process=69193 writer=1 but instead received 4\nERROR: Missing process 69193 writer 1 sample 0 expected data length 10240\nERROR: Missing process 69193 writer 1 sample 1 expected data length 20480\nERROR: Missing process 69193 writer 1 sample 2 expected data length 30720\nERROR: Missing process 69193 writer 1 sample 3 expected data length 40960\nERROR: Missing process 69193 writer 1 sample 4 expected data length 51200\nERROR: Missing process 69193 writer 1 sample 5 expected data length 61440\n2020-12-31 21:29:25: ERROR: subscriber returned 1 (started at 2020-12-31 21:28:55)\ntest FAILED.\nError: tests/DCPS/LargeSample/run_test.pl shmem returned with status 256",
                 "start_column": 0,
                 "start_line": 1,
                 "title": "tests/DCPS/LargeSample/run_test.pl shmem"
-            },
+            }
         ]);
     });
 });
