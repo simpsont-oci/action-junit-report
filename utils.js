@@ -3,8 +3,8 @@ const core = require('@actions/core');
 const fs = require('fs');
 const parser = require('xml-js');
 
-const resolveFileAndLine = (file, classname, output) => {
-    const filename = file ? file : classname.split('.').slice(-1)[0];
+const resolveFileAndLine = (file, classname, name, output) => {
+    const filename = file ? file : (classname ? classname.split('.').slice(-1)[0] : (name ? name.split(' ')[0] : ''));
     const matches = output.match(new RegExp(`${filename}.*?:\\d+`, 'g'));
     if (!matches) return { filename: filename, line: 1 };
 
@@ -75,12 +75,13 @@ async function parseFile(file) {
 
                 const { filename, line } = resolveFileAndLine(
                     testcase._attributes.file,
-                    testcase._attributes.classname ? testcase._attributes.classname : testcase._attributes.name,
+                    testcase._attributes.classname,
+                    testcase._attributes.name,
                     stackTrace
                 );
 
                 const path = await resolvePath(filename);
-                const title = `${filename}.${testcase._attributes.name}`;
+                const title = (testcase._attributes.file || testcase._attributes.classname || !testcase._attributes.name.includes(' ')) ? `${filename}.${testcase._attributes.name}` : `${testcase._attributes.name}`;
                 core.info(`${path}:${line} | ${message.replace(/\n/g, ' ')}`);
 
                 annotations.push({

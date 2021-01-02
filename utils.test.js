@@ -2,7 +2,7 @@ const { resolveFileAndLine, resolvePath, parseFile } = require('./utils');
 
 describe('resolveFileAndLine', () => {
     it('should default to 1 if no line found', () => {
-        const { filename, line } = resolveFileAndLine(null, 'someClassName', 'not a stacktrace');
+        const { filename, line } = resolveFileAndLine(null, 'someClassName', 'not a name', 'not a stacktrace');
         expect(filename).toBe('someClassName');
         expect(line).toBe(1);
     });
@@ -11,6 +11,7 @@ describe('resolveFileAndLine', () => {
         const { filename, line } = resolveFileAndLine(
             null,
             'action.surefire.report.email.EmailAddressTest',
+            'not a name', 
             `
 action.surefire.report.email.InvalidEmailAddressException: Invalid email address 'user@ñandú.com.ar'
     at action.surefire.report.email.EmailAddressTest.expectException(EmailAddressTest.java:74)
@@ -25,6 +26,7 @@ action.surefire.report.email.InvalidEmailAddressException: Invalid email address
         const { filename, line } = resolveFileAndLine(
             null,
             'action.surefire.report.calc.CalcUtilsTest',
+            'not a name', 
             `
 java.lang.AssertionError: unexpected exception type thrown; expected:<java.lang.IllegalStateException> but was:<java.lang.IllegalArgumentException>
     at action.surefire.report.calc.CalcUtilsTest.test error handling(CalcUtilsTest.kt:27)
@@ -42,6 +44,7 @@ Caused by: java.lang.IllegalArgumentException: Amount must have max 2 non-zero d
         const { filename, line } = resolveFileAndLine(
             null,
             'action.surefire.report.calc.StringUtilsTest',
+            'not a name', 
             `
 java.lang.AssertionError: 
 
@@ -65,6 +68,7 @@ Stacktrace was: java.lang.IllegalArgumentException: Input='' didn't match condit
         const { filename, line } = resolveFileAndLine(
             'test.py',
             'anything',
+            'not a name', 
             `
 def
 test_with_error():
@@ -235,6 +239,68 @@ describe('parseFile', () => {
                 "start_column": 0,
                 "start_line": 1,
                 "title": "loadFromXMLString_When_Should2Test.loadFromXMLString_When_Should2Test",
+            },
+        ]);
+    });
+
+    it('should parse failure autobuild junit results', async () => {
+        const { count, skipped, annotations } = await parseFile('autobuild_junit/Tests_JUnit.xml');
+
+        expect(count).toBe(483);
+        expect(skipped).toBe(0);
+        expect(annotations).toStrictEqual([
+            {
+                "annotation_level": "failure",
+                "end_column": 0,
+                "end_line": 1,
+                "message": "Missing Data (3) Details: ERROR :: Topic Name: topic_02, Reliable: true, Durable: false [PH: 32 (1-7)] 2 [PH: 36 (1-8)] 6-7",
+                "path": "performance-tests/bench_2/run_test.pl",
+                "raw_details": "Missing Data (3) Details: ERROR :: Topic Name: topic_02, Reliable: true, Durable: false [PH: 32 (1-7)] 2 [PH: 36 (1-8)] 6-7",
+                "start_column": 0,
+                "start_line": 1,
+                "title": "performance-tests/bench_2/run_test.pl fan_frag"
+            },
+            {
+                "annotation_level": "failure",
+                "end_column": 0,
+                "end_line": 1,
+                "message": "ERROR: test publisher returned 1 \nERROR: test subscriber returned 1",
+                "path": "java/tests/participant_location/run_test.pl",
+                "raw_details": "ERROR: test publisher returned 1 \nERROR: test subscriber returned 1 \ntest FAILED.\nError: java/tests/participant_location/run_test.pl -noice returned with status 256",
+                "start_column": 0,
+                "start_line": 1,
+                "title": "java/tests/participant_location/run_test.pl -noice"
+            },
+        ]);
+    });
+
+    it('should parse failure autobuild junit results', async () => {
+        const { count, skipped, annotations } = await parseFile('autobuild_junit/Tests_JUnit_2.xml');
+
+        expect(count).toBe(413);
+        expect(skipped).toBe(0);
+        expect(annotations).toStrictEqual([
+            {
+                "annotation_level": "failure",
+                "end_column": 0,
+                "end_line": 1,
+                "message": "ERROR: Got 1 samples, expected 50\nERROR: <sub/subscriber> failed: No such file or directory",
+                "path": "tests/DCPS/Reliability/run_test.pl",
+                "raw_details": "ERROR: Got 1 samples, expected 50\nERROR: <sub/subscriber> failed: No such file or directory\n2020-12-31 20:59:22: ERROR: sub returned 255 (started at 2020-12-31 20:59:18)\ntest FAILED.\nError: tests/DCPS/Reliability/run_test.pl rtps keep-last-one returned with status 256",
+                "start_column": 0,
+                "start_line": 1,
+                "title": "tests/DCPS/Reliability/run_test.pl rtps keep-last-one"
+            },
+            {
+                "annotation_level": "failure",
+                "end_column": 0,
+                "end_line": 1,
+                "message": "ERROR: Expected to receive 10 samples from process=69193 writer=1 but instead received 4\nERROR: Missing process 69193 writer 1 sample 0 expected data length 10240",
+                "path": "tests/DCPS/LargeSample/run_test.pl",
+                "raw_details": "ERROR: Expected to receive 10 samples from process=69193 writer=1 but instead received 4\nERROR: Missing process 69193 writer 1 sample 0 expected data length 10240\nERROR: Missing process 69193 writer 1 sample 1 expected data length 20480\nERROR: Missing process 69193 writer 1 sample 2 expected data length 30720\nERROR: Missing process 69193 writer 1 sample 3 expected data length 40960\nERROR: Missing process 69193 writer 1 sample 4 expected data length 51200\nERROR: Missing process 69193 writer 1 sample 5 expected data length 61440\n2020-12-31 21:29:25: ERROR: subscriber returned 1 (started at 2020-12-31 21:28:55)\ntest FAILED.\nError: tests/DCPS/LargeSample/run_test.pl shmem returned with status 256",
+                "start_column": 0,
+                "start_line": 1,
+                "title": "tests/DCPS/LargeSample/run_test.pl shmem"
             },
         ]);
     });
