@@ -10,7 +10,7 @@ import { resolveFileAndLine, resolvePath, parseFile } from '../src/testParser'
  */
 describe('resolveFileAndLine', () => {
     it('should default to 1 if no line found', async () => {
-        const { fileName, line } = await resolveFileAndLine(null, 'someClassName', 'not a stacktrace');
+        const { fileName, line } = await resolveFileAndLine(null, 'someClassName', 'name', 'not a stacktrace');
         expect(fileName).toBe('someClassName');
         expect(line).toBe(1);
     });
@@ -19,6 +19,7 @@ describe('resolveFileAndLine', () => {
         const { fileName, line } = await resolveFileAndLine(
             null,
             'action.surefire.report.email.EmailAddressTest',
+            'name',
             `
 action.surefire.report.email.InvalidEmailAddressException: Invalid email address 'user@ñandú.com.ar'
     at action.surefire.report.email.EmailAddressTest.expectException(EmailAddressTest.java:74)
@@ -33,6 +34,7 @@ action.surefire.report.email.InvalidEmailAddressException: Invalid email address
         const { fileName, line } = await resolveFileAndLine(
             null,
             'action.surefire.report.calc.CalcUtilsTest',
+            'name',
             `
 java.lang.AssertionError: unexpected exception type thrown; expected:<java.lang.IllegalStateException> but was:<java.lang.IllegalArgumentException>
     at action.surefire.report.calc.CalcUtilsTest.test error handling(CalcUtilsTest.kt:27)
@@ -50,6 +52,7 @@ Caused by: java.lang.IllegalArgumentException: Amount must have max 2 non-zero d
         const { fileName, line } = await resolveFileAndLine(
             null,
             'action.surefire.report.calc.StringUtilsTest',
+            'name',
             `
 java.lang.AssertionError: 
 
@@ -73,6 +76,7 @@ Stacktrace was: java.lang.IllegalArgumentException: Input='' didn't match condit
         const { fileName, line } = await resolveFileAndLine(
             'test.py',
             'anything',
+            'name',
             `
 def
 test_with_error():
@@ -251,6 +255,7 @@ describe('parseFile', () => {
         const { fileName, line } = await resolveFileAndLine(
             null,
             'action.surefire.report.email.EmailAddressTest++',
+            'name',
             `
 action.surefire.report.email.InvalidEmailAddressException: Invalid email address 'user@ñandú.com.ar'
     at action.surefire.report.email.EmailAddressTest.expectException(EmailAddressTest++.java:74)
