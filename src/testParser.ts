@@ -36,9 +36,16 @@ export interface Position {
 export async function resolveFileAndLine(
   file: string | null,
   className: string,
+  name: string,
   output: String
 ): Promise<Position> {
-  const fileName = file ? file : className.split('.').slice(-1)[0]
+  const fileName = file
+    ? file
+    : className
+    ? className.split('.').slice(-1)[0]
+    : name
+    ? name.split(' ')[0]
+    : ''
   try {
     const escapedFileName = fileName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const matches = output.match(new RegExp(`${escapedFileName}.*?:\\d+`, 'g'))
@@ -176,16 +183,20 @@ async function parseSuite(
 
         const pos = await resolveFileAndLine(
           testcase._attributes.file,
-          testcase._attributes.classname
-            ? testcase._attributes.classname
-            : testcase._attributes.name,
+          testcase._attributes.classname,
+          testcase._attributes.name,
           stackTrace
         )
 
         const path = await resolvePath(pos.fileName)
-        const title = suiteName
-          ? `${pos.fileName}.${suiteName}/${testcase._attributes.name}`
-          : `${pos.fileName}.${testcase._attributes.name}`
+        const title =
+          testcase._attributes.file ||
+          testcase._attributes.classname ||
+          !testcase._attributes.name.includes('.pl')
+            ? suiteName
+              ? `${pos.fileName}.${suiteName}/${testcase._attributes.name}`
+              : `${pos.fileName}.${testcase._attributes.name}`
+            : `${testcase._attributes.name}`
         core.info(`${path}:${pos.line} | ${message.replace(/\n/g, ' ')}`)
 
         annotations.push({
