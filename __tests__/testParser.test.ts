@@ -90,6 +90,44 @@ test.py:14: AttributeError
         expect(fileName).toBe('test.py');
         expect(line).toBe(14);
     });
+
+    it('should parse correctly fileName and line for simple test scripts', async () => {
+        const { fileName, line } = await resolveFileAndLine(
+            null,
+            '',
+            'tests/DCPS/KeyTest/run_test.pl compiler',
+            `
+      <![CDATA[ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error
+Error: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256
+]]></failure><system-out>
+      <![CDATA[start tests/DCPS/KeyTest/run_test.pl compiler at Wed Feb 17 12:32:36 2021
+ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error
+Error: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256
+stop tests/DCPS/KeyTest/run_test.pl compiler at Wed Feb 17 12:32:36 2021
+`
+        );
+        expect(fileName).toBe('tests/DCPS/KeyTest/run_test.pl');
+        expect(line).toBe(32);
+    });
+
+    it('should parse correctly fileName and line for simple test scripts', async () => {
+        const { fileName, line } = await resolveFileAndLine(
+            null,
+            '',
+            'tests/DCPS/KeyTest/run_test.pl',
+            `
+      <![CDATA[ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error
+Error: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256
+]]></failure><system-out>
+      <![CDATA[start tests/DCPS/KeyTest/run_test.pl compiler at Wed Feb 17 12:32:36 2021
+ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error
+Error: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256
+stop tests/DCPS/KeyTest/run_test.pl compiler at Wed Feb 17 12:32:36 2021
+`
+        );
+        expect(fileName).toBe('tests/DCPS/KeyTest/run_test.pl');
+        expect(line).toBe(32);
+    });
 });
 
 describe('resolvePath', () => {
@@ -142,6 +180,7 @@ describe('parseFile', () => {
             }
         ]);
     });
+
     it('should parse pytest results', async () => {
         const { count, skipped, annotations } = await parseFile('test_results/python/report.xml');
 
@@ -171,6 +210,37 @@ describe('parseFile', () => {
                 message: "AttributeError: 'dict' object has no attribute 'attr'",
                 raw_details:
                     "def test_with_error():\n        event = { 'attr': 'test'}\n>       assert event.attr == 'test'\nE       AttributeError: 'dict' object has no attribute 'attr'\n\npython/test_sample.py:14: AttributeError"
+            }
+        ]);
+    });
+
+    it('should parse autobuild results', async () => {
+        const { count, skipped, annotations } = await parseFile('test_results/autobuild/Tests_JUnit.xml');
+
+        expect(count).toBe(3);
+        expect(skipped).toBe(0);
+        expect(annotations).toStrictEqual([
+            {
+                annotation_level: 'failure',
+                end_column: 0,
+                end_line: 1,
+                path: 'tests/DCPS/KeyTest/run_test.pl',
+                start_column: 0,
+                start_line: 1,
+                message: "ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error\nError: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256",
+                raw_details: "ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error\nError: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256",
+                title: "tests/DCPS/KeyTest/run_test.pl",
+            },
+            {
+                annotation_level: 'failure',
+                end_column: 0,
+                end_line: 1,
+                path: 'tests/DCPS/KeyTest/run_test.pl',
+                start_column: 0,
+                start_line: 1,
+                message: "ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error\nError: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256",
+                raw_details: "ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error\nError: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256",
+                title: "tests/DCPS/KeyTest/run_test.pl compiler",
             }
         ]);
     });

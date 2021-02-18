@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="JUnit.xsd">
+  <testsuite name="Autobuild_Tests" tests="402" failures="5">
+    <testcase name="tests/DCPS/Prst_delayed_subscriber/run_test.pl" status="0" time="13"/>
+    <testcase name="tests/DCPS/KeyTest/run_test.pl" status="256" time="0"><failure>
+      <![CDATA[ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error
+Error: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256
+]]></failure><system-out>
+      <![CDATA[start tests/DCPS/KeyTest/run_test.pl compiler at Wed Feb 17 12:32:36 2021
+ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error
+Error: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256
+stop tests/DCPS/KeyTest/run_test.pl compiler at Wed Feb 17 12:32:36 2021
+
+]]></system-out></testcase>
+    <testcase name="tests/DCPS/KeyTest/run_test.pl compiler" status="256" time="0"><failure>
+      <![CDATA[ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error
+Error: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256
+]]></failure><system-out>
+      <![CDATA[start tests/DCPS/KeyTest/run_test.pl compiler at Wed Feb 17 12:32:36 2021
+ERROR: opendds_idl processed KeyTypeError_array_noindex.idl cleanly when expecting error
+Error: tests/DCPS/KeyTest/run_test.pl compiler returned with status 256
+stop tests/DCPS/KeyTest/run_test.pl compiler at Wed Feb 17 12:32:36 2021
+
+]]></system-out></testcase>
+  </testsuite>
+</testsuites>
